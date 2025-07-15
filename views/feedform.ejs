@@ -1,0 +1,78 @@
+<%- layout('/layouts/boilerplate') %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+      <div class="p-4 border rounded-4 shadow-sm bg-white">
+        <h2 class="mb-4 text-center text-dark border-bottom pb-3">Add Your Review</h2>
+
+        <form method="post" action="/api/feedback" class="needs-validation" novalidate>
+
+          <!-- Meal Type -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Meal Type</label>
+            <select name="mealType" class="form-select" required>
+              <option value="">Select</option>
+              <option value="breakfast">Breakfast</option>
+              <option value="lunch">Lunch</option>
+              <option value="dinner">Dinner</option>
+            </select>
+            <div class="invalid-feedback">Please select a valid meal type.</div>
+          </div>
+
+          <!-- Rating -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Rating (1–5)</label>
+            <input name="rating" type="number" class="form-control" min="1" max="5" required />
+            <div class="invalid-feedback">Enter a rating between 1 and 5.</div>
+          </div>
+
+          <!-- Comment -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Comment</label>
+            <textarea name="comment" class="form-control" rows="3" required></textarea>
+            <div class="invalid-feedback">Comment is required.</div>
+          </div>
+
+          <!-- Student ID and Password -->
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label class="form-label fw-semibold">Student ID</label>
+              <input name="studentId" type="number" class="form-control" required />
+              <div class="invalid-feedback">Student ID is required.</div>
+            </div>
+            <div class="col-md-8 mb-3">
+              <label class="form-label fw-semibold">Password</label>
+              <input name="password" type="password" class="form-control" required />
+              <div class="invalid-feedback">Password is required.</div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-center mt-4">
+            <button type="submit" class="btn btn-dark px-4 rounded-pill">Submit Review</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Form validation script -->
+<script>
+    (() => {
+
+    'use strict'
+    console.log("script is loaded !");
+  const forms = document.querySelectorAll('.needs-validation');
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    });
+  });
+})();
+</script>

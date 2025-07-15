@@ -1,0 +1,42 @@
+
+<nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/home">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVQrWL54FG9X7fpcq7Kisq7T_3yk7C8wYXQg&s" height="60px" width="60px"/>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/home">Home</a>
+        </li>
+        <% if (currentRoute === '/api/student/dashboard' ) { %>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/api/feedback">
+              Give your review
+            </a>
+          </li>
+        <% } %>
+        <% if (currentRoute === '/api/admin/dashboard') { %>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/api/student/new">
+              Add New Student
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/api/admin/new">
+              Add New Admin
+            </a>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- <% if (!currentRoute.startsWith('/api/admin')) { %>
+    <a href="/feedback">Give your review</a>
+  <% } %> -->
