@@ -11,6 +11,7 @@ const PORT = 8080;
 const session = require('express-session');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
+const bcrypt = require("bcrypt");
 
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, "public")))
@@ -18,6 +19,7 @@ app.set('view engine', 'ejs');
 app.engine('ejs', ejsMate);
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
+const saltRounds = 10;
 
 connectDB();
 
@@ -57,40 +59,43 @@ app.get("/api/admin/login",(req, res)=>{
     res.render("login.ejs");
 })
 
+
+//admin login
 app.post("/api/admin/dashboard", async (req, res) => {
-    let { adminName, password } = req.body;
-    let admin = await Admin.find({
-        adminName: adminName,
-        password: password,
-    });
-    if(admin.length){
+    const { adminName, password } = req.body;
+    const admin = await Admin.findOne({ adminName });
+    if(!admin) return req.flash("error", "Worng Credentials!"), res.redirect("/api/admin/login");
+    const validAdmin = await bcrypt.compare(password, admin.password);
+
+    if(validAdmin){
         req.flash("success", "Welcome! Login Successfully!")
         res.redirect("/api/admin/dashboard");
     }else{
-         req.flash("error", "Something went worng!")
+         req.flash("error", "Worng Credentials!")
          res.redirect("/api/admin/login");
     }   
 });
 
 
+//feedback form
 app.get("/api/feedback", (req, res)=>{
     res.render("feedform.ejs")
 });
 
 
+//feedback saving in db
 app.post('/api/feedback', async (req, res) => {
    const {mealType, rating, comment, studentId, password} = req.body; 
 
-    let student = await Student.find({
-        studentId: studentId,
-        password: password
-    })
-    if (student.length) {
+    const student = await Student.findOne({ studentId }); 
+    const validStudent = await bcrypt.compare(password, student.password);
+
+    if (validStudent) {
         let newFeedback = new Feedback({
             mealType: mealType,
             rating: rating,
             comment: comment,
-            owner: student[0]._id,
+            owner: student._id,
         })
             
         await newFeedback.save();
@@ -102,13 +107,14 @@ app.post('/api/feedback', async (req, res) => {
     }   
 });
 
-
+//showing all feedback
 app.get("/api/admin/dashboard",async (req, res)=>{
      
     let allFeedbacks = await Feedback.find().populate("owner");
     res.render("allFeedbacks.ejs",{ allFeedbacks } );
 });
 
+//showing all feedback
 app.get("/api/student/dashboard",async (req, res)=>{
      
     let allFeedbacks = await Feedback.find().populate("owner");
@@ -116,20 +122,25 @@ app.get("/api/student/dashboard",async (req, res)=>{
 
 });
 
+//new student form 
 app.get("/api/student/new",(req, res)=>{
     res.render("newStudent")
 });
 
+//saving new student
 app.post("/api/student/new", async (req, res)=>{
     let { studentName, studentId, roomNumber, password } = req.body ; 
+
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
     let newStudent = new Student({
         studentId: studentId,
         studentName: studentName,
         roomNumber: roomNumber,
-        password: password,
+        password: hashedPassword,
     });
 
-   if( await newStudent.save()){
+   if(await newStudent.save()){
         req.flash("success", `You Add ${studentName} as a new Student!`)
         res.redirect("/api/admin/dashboard");
     }else{
@@ -138,16 +149,21 @@ app.post("/api/student/new", async (req, res)=>{
     }   
 })
 
+//new admin form
 app.get("/api/admin/new", (req, res) => {
     res.render("newAdmin");
 });
 
+//saving new admin in db
 app.post("/api/admin/new", async (req, res)=>{
     let {adminName, hostelName, password } = req.body ; 
+
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    
     let newAdmin = new Admin({
         adminName: adminName,
         hostelName: hostelName,
-        password: password,
+        password: hashedPassword,
     });
     console.log(newAdmin)
    if( await newAdmin.save()){
