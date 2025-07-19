@@ -6,6 +6,7 @@ const connectDB = require('./confir/db');
 const Feedback = require("./models/Feedback");
 const Student = require("./models/Student");
 const Admin = require("./models/Admin");
+const Comment = require("./models/comment");
 const ejsMate = require('ejs-mate');
 const PORT = 8080;
 const session = require('express-session');
@@ -177,7 +178,7 @@ app.post("/api/admin/new", async (req, res)=>{
         hostelName: hostelName,
         password: hashedPassword,
     });
-    console.log(newAdmin)
+     
    if( await newAdmin.save()){
         req.flash("success", `You Add ${adminName} as a new admin!`)
         res.redirect("/api/admin/dashboard");
@@ -190,14 +191,12 @@ app.post("/api/admin/new", async (req, res)=>{
 //showing all students
 app.get("/api/admin/showAllStudents", async(req, res) => {
     const students = await Student.find({});
-    console.log(students);
     res.render("allStudents", {students});
 })
 
 //showing all admins
 app.get("/api/admin/showAllAdmins", async(req, res) => {
     const admins = await Admin.find({});
-    console.log(admins);
     res.render("allAdmins", {admins});
 })
 
@@ -236,6 +235,34 @@ app.post("/api/admin/:id/edit", async (req, res) => {
         hostelName: hostelName,
     });
     res.redirect("/api/admin/showAllAdmins");
-})
+});
+//for give comment
+app.get("/api/admin/dropcomment",(req, res)=>{
+    res.render("dropcomment");
+});
+//for take comment
+app.post("/api/admin/dropcomment",async (req, res)=>{
+    const {id} = req.params;
+    const {post, hostelName, comment} = req.body;
+    let newComment = new Comment({
+        post: post,
+        hostelName: hostelName,
+        comment: comment,
+    })
+    if(await newComment.save()){
+        req.flash("success", `Your comment Droped`)
+         
+        res.redirect("/api/admin/dashboard");
+    }else{
+         req.flash("error", "Something went wrong!")
+         res.redirect("/api/admin/dropcomment");
+    }   
+    
+}) ;
+//route for showing the commnets
+app.get("/api/comment", async (req, res)=>{
+    const comments = await Comment.find({});
+    res.render("comment", { comments });
+});
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
