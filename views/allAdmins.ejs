@@ -1,0 +1,25 @@
+<%- layout('/layouts/boilerplate') %>
+
+<% for(let admin of admins) { %>
+<div class="admin-card profile-header-card">
+  <div class="admin-header">
+    <div class="admin-icon">👤</div>
+    <div class="admin-name"><%= admin.adminName %></div>
+  </div>
+
+  <hr class="admin-divider">
+
+  <div class="admin-details">
+    <p>🏨 <%= admin.hostelName %></p>
+    <p>☎️ +91 9548527285</p>
+  </div>
+
+  <div class="admin-actions">
+    <a href="/api/admin/<%= admin._id %>/edit" class="admin-btn">✏️ Edit</a>
+    <form action="/api/admins/<%= admin._id %>?_method=DELETE" method="POST" style="display:inline;">
+      <button type="submit" class="admin-btn">🗑️ Delete</button>
+    </form>
+  </div>
+</div>
+<% } %>
+

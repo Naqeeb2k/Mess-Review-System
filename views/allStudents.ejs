@@ -1,0 +1,19 @@
+<%- layout('/layouts/boilerplate') %>
+
+<div class="students-wrapper">
+  <% for(let student of students) {%>
+    <div class="student-card">
+      <p class="student-name">👤 <%= student.studentName %></p>
+      <p>🆔 ID: <%= student.studentId %></p>
+      <p>🏠 Room: <%= student.roomNumber %></p>
+      <p>🎓 Course: DCS</p>
+
+      <div class="card-actions">
+        <a href="/api/student/<%= student._id %>/edit" class="btn edit-btn">✏️ Edit</a>
+        <form action="/api/student/<%= student._id %>/delete?_method=DELETE" method="POST" style="display:inline;">
+          <button type="submit" class="btn delete-btn">🗑️ Delete</button>
+        </form>
+      </div>
+    </div>
+  <% } %>
+</div>

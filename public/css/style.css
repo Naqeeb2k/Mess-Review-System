@@ -92,5 +92,141 @@ body{
     display: flex;
     flex-wrap: wrap;
   }
-  
 
+
+/* for student cards */
+ .students-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  padding: 30px;
+  background-color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.student-card {
+  background-color: #ffffff;
+  color: #111;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.student-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.student-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #000;
+}
+
+.student-card p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.card-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  font-size: 13px;
+  padding: 6px 12px;
+  border: 1px solid #000;
+  background-color: #fff;
+  color: #000;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #000;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+
+form {
+  display: inline;
+}
+
+
+/* card for admin */
+.profile-header-card {
+  width: 280px;
+  margin: 16px auto;
+  padding: 18px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #111;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
+  font-family: Arial, sans-serif;
+}
+
+.admin-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.admin-icon {
+  font-size: 30px;
+  margin-bottom: 6px;
+}
+
+.admin-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.admin-divider {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 12px 0;
+}
+
+.admin-details p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.admin-actions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.admin-btn {
+  font-size: 13px;
+  padding: 5px 10px;
+  border: 1px solid #000;
+  background: #fff;
+  color: #000;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.admin-btn:hover {
+  background: #000;
+  color: #fff;
+}

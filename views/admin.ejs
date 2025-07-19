@@ -1,0 +1,45 @@
+<style>
+  .hover-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hover-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+  }
+</style>
+<%- layout('/layouts/boilerplate') %>
+
+<div class="d-flex justify-content-center align-items-center mt-5 gap-4 flex-wrap">
+    <!-- Students Option -->
+    <a href="/api/admin/showAllStudents" class="text-decoration-none">
+        <div class="d-flex justify-content-center align-items-center card text-center shadow-sm p-4 hover-card" style="width: 350px; height: 180px;">
+            <i class="fa-solid fa-address-card fa-2x mb-2"></i>
+            <h5 class="mb-0">All Students</h5>
+        </div>
+    </a>
+
+    <!-- Reviews Option -->
+    <a href="/api/admin/allFeedbacks" class="text-decoration-none">
+        <div class="d-flex justify-content-center align-items-center card text-center shadow-sm p-4 hover-card" style="width: 350px; height: 180px;">
+            <i class="fa-solid fa-comments fa-2x mb-2"></i>
+            <h5 class="mb-0">All Reviews</h5>
+        </div>
+    </a>
+
+    <!-- Reviews Option -->
+    <a href="/api/admin/showAllAdmins" class="text-decoration-none">
+        <div class="d-flex justify-content-center align-items-center card text-center shadow-sm p-4 hover-card" style="width: 350px; height: 180px;">
+            <i class="fa-solid fa-user-tie fa-2x mb-2"></i>
+            <h5 class="mb-0">All Admins</h5>
+        </div>
+    </a>
+
+    <!-- Reviews Option -->
+    <a href="/api/student/new" class="text-decoration-none">
+        <div class="d-flex justify-content-center align-items-center card text-center shadow-sm p-4 hover-card" style="width: 350px; height: 180px;">
+            <i class="fa-solid fa-user-plus fa-2x mb-2"></i>
+            <h5 class="mb-0">Add New Student</h5>
+        </div>
+    </a>
+</div>

@@ -107,19 +107,23 @@ app.post('/api/feedback', async (req, res) => {
     }   
 });
 
-//showing all feedback
-app.get("/api/admin/dashboard",async (req, res)=>{
+//showing all feedbacks for students
+app.get("/api/student/dashboard",async (req, res)=>{
      
     let allFeedbacks = await Feedback.find().populate("owner");
     res.render("allFeedbacks.ejs",{ allFeedbacks } );
 });
 
-//showing all feedback
-app.get("/api/student/dashboard",async (req, res)=>{
+//showing all feedbacks for Admins
+app.get("/api/admin/allFeedbacks",async (req, res)=>{
      
     let allFeedbacks = await Feedback.find().populate("owner");
     res.render("allFeedbacks.ejs",{ allFeedbacks } );
+});
 
+//Admin dashboard
+app.get("/api/admin/dashboard", async (req, res)=>{
+     res.render("admin");
 });
 
 //new student form 
@@ -174,5 +178,56 @@ app.post("/api/admin/new", async (req, res)=>{
          res.redirect("/api/admin/new");
     }   
 });
+
+//showing all students
+app.get("/api/admin/showAllStudents", async(req, res) => {
+    const students = await Student.find({});
+    console.log(students);
+    res.render("allStudents", {students});
+})
+
+//showing all admins
+app.get("/api/admin/showAllAdmins", async(req, res) => {
+    const admins = await Admin.find({});
+    console.log(admins);
+    res.render("allAdmins", {admins});
+})
+
+//student edit route
+app.get("/api/student/:id/edit", async (req, res) => {
+    const {id} = req.params;
+    const studentDetails = await Student.findById(id);
+    res.render("StudentEditPage", {studentDetails});
+})
+
+//student update route
+app.post("/api/student/:id/edit", async (req, res) => {
+    const {id} = req.params;
+    const {studentName, studentId, roomNumber} = req.body;
+    await Student.findByIdAndUpdate(id, {
+        studentName: studentName,
+        studentId: studentId,
+        roomNumber: roomNumber,
+    });
+    res.redirect("/api/admin/showAllStudents");
+})
+
+//admin edit route
+app.get("/api/admin/:id/edit", async (req, res) => {
+    const {id} = req.params;
+    const adminDetails = await Admin.findById(id);
+    res.render("adminEditPage", {adminDetails});
+})
+
+//student update route
+app.post("/api/admin/:id/edit", async (req, res) => {
+    const {id} = req.params;
+    const {adminName, hostelName} = req.body;
+    await Admin.findByIdAndUpdate(id, {
+        adminName: adminName,
+        hostelName: hostelName,
+    });
+    res.redirect("/api/admin/showAllAdmins");
+})
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
