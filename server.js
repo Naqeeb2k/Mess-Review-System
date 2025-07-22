@@ -216,7 +216,9 @@ app.post("/api/student/:id/edit", async (req, res) => {
         studentId: studentId,
         roomNumber: roomNumber,
     });
+     req.flash("success", "Student updated successfully!");
     res.redirect("/api/admin/showAllStudents");
+    
 })
 
 //admin edit route
@@ -227,13 +229,17 @@ app.get("/api/admin/:id/edit", async (req, res) => {
 })
 
 //student update route
+// Student update route
 app.post("/api/admin/:id/edit", async (req, res) => {
-    const {id} = req.params;
-    const {adminName, hostelName} = req.body;
+    const { id } = req.params;
+    const { adminName, hostelName } = req.body;
+
     await Admin.findByIdAndUpdate(id, {
-        adminName: adminName,
-        hostelName: hostelName,
+        adminName,
+        hostelName,
     });
+
+    req.flash("success", "Student updated successfully!");
     res.redirect("/api/admin/showAllAdmins");
 });
 //for give comment

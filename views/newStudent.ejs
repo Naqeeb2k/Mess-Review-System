@@ -1,63 +1,61 @@
 <%- layout('/layouts/boilerplate') %>
 
-<div class="container d-flex justify-content-center align-items-center vh-100">
-  <div class="col-12 col-sm-10 col-md-6 col-lg-5 col-xl-4 p-4 border border-dark rounded-4 shadow-sm bg-white">
-    <h4 class="text-center mb-4" style="font-family: 'Playfair Display', serif; letter-spacing: 1px; font-weight: 600; color: #111;">
-      Add New Student
-    </h4>
+<div class="container mt-5 mb-5 d-flex justify-content-center">
+  <form action="/api/student/new" method="POST" class="w-100" style="max-width: 500px; border: 1.5px solid black; padding: 30px; border-radius: 16px; background: white;">
+    <h2 class="text-center mb-4" style="font-family: 'Playfair Display', serif; font-weight: 600;">Add New Student</h2>
 
-    <form action="/api/student/new" method="post">
-      <div class="mb-3">
-        <label class="form-label" style="font-weight: 500; color: #222;">Student Name</label>
-        <input
-          type="text"
-          name="studentName"
-          class="form-control border-dark rounded-2"
-          placeholder="e.g. Ahmed Khan"
-          required
-        />
-      </div>
+    <div class="mb-3">
+      <label for="studentName" class="form-label">Student Name</label>
+      <input
+        type="text"
+        id="studentName"
+        name="studentName"
+        class="form-control"
+        placeholder="e.g. Ahmed Khan"
+        required
+        style="border: 1px solid black;"
+      />
+    </div>
 
-      <div class="mb-3">
-        <label class="form-label" style="font-weight: 500; color: #222;">Student ID</label>
-        <input
-          type="text"
-          name="studentId"
-          class="form-control border-dark rounded-2"
-          placeholder="e.g. STU123"
-          required
-        />
-      </div>
+    <div class="mb-3">
+      <label for="studentId" class="form-label">Student ID</label>
+      <input
+        type="text"
+        id="studentId"
+        name="studentId"
+        class="form-control"
+        placeholder="e.g. STU123"
+        required
+        style="border: 1px solid black;"
+      />
+    </div>
 
-      <div class="mb-3">
-        <label class="form-label" style="font-weight: 500; color: #222;">Room Number</label>
-        <input
-          type="text"
-          name="roomNumber"
-          class="form-control border-dark rounded-2"
-          placeholder="e.g. 204-B"
-          required
-        />
-      </div>
+    <div class="mb-3">
+      <label for="roomNumber" class="form-label">Room Number</label>
+      <input
+        type="text"
+        id="roomNumber"
+        name="roomNumber"
+        class="form-control"
+        placeholder="e.g. 204-B"
+        required
+        style="border: 1px solid black;"
+      />
+    </div>
 
-      <div class="mb-4">
-        <label class="form-label" style="font-weight: 500; color: #222;">Password</label>
-        <input
-          type="password"
-          name="password"
-          class="form-control border-dark rounded-2"
-          placeholder="Create password"
-          required
-        />
-      </div>
+    <div class="mb-4">
+      <label for="password" class="form-label">Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        class="form-control"
+        placeholder="Create password"
+        required
+        style="border: 1px solid black;"
+      />
+    </div>
 
-      <button
-        type="submit"
-        class="btn w-100 py-2"
-        style="background-color: black; color: white; font-weight: 500; letter-spacing: 0.5px; border-radius: 2rem;"
-      >
-        Add Student
-      </button>
-    </form>
-  </div>
+    <button type="submit" class="btn w-100" style="background-color: black; color: white; border-radius: 30px; font-weight: 600;">Add Student</button>
+  </form>
 </div>
