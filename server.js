@@ -13,13 +13,11 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
 const bcrypt = require("bcrypt");
-<<<<<<< HEAD
-const { send } = require('process');
-=======
+
 const jwt = require("jsonwebtoken");
 const cookieParser = require('cookie-parser');
 const auth = require('./middlewares/auth');
->>>>>>> naqeeb-changes
+
 
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, "public")))
@@ -50,26 +48,9 @@ app.use((req, res, next) => {
   next();
 });
 
-<<<<<<< HEAD
-app.get("/add", async(req, res) => {
 
-    let adminName = "Shakir";
-    let hostelName = "AMKH";
 
-    const hashedPassword = await bcrypt.hash("shakir123", saltRounds);
-    
-    let newAdmin = new Admin({
-        adminName: adminName,
-        hostelName: hostelName,
-        password: hashedPassword,
-    });
-    console.log(newAdmin);
-    res.send(newAdmin);
-    await newAdmin.save();
-})
 
-=======
->>>>>>> naqeeb-changes
 // Routes will go here
 app.get("/home", async(req, res)=>{
     res.render("home");
@@ -128,11 +109,9 @@ app.post('/api/feedback', async (req, res) => {
         req.flash("success", "Your Feedback added!")
         res.redirect("/api/student/dashboard");
     }else{
-<<<<<<< HEAD
-         req.flash("error", "Incorrect Password");
-=======
+
          req.flash("error", "Worng Password!")
->>>>>>> naqeeb-changes
+
          res.redirect("/api/feedback");
     }   
 });
@@ -198,7 +177,7 @@ app.post("/api/admin/addAdmin", async (req, res)=>{
         hostelName: hostelName,
         password: hashedPassword,
     });
-     
+    console.log(newAdmin)
    if( await newAdmin.save()){
         req.flash("success", `You Add ${adminName} as a new admin!`)
         res.redirect("/api/admin/dashboard");
@@ -211,21 +190,17 @@ app.post("/api/admin/addAdmin", async (req, res)=>{
 //showing all students
 app.get("/api/admin/showAllStudents", auth, async(req, res) => {
     const students = await Student.find({});
-<<<<<<< HEAD
-    res.render("allStudents", {students});
-=======
+
     res.render("student/allStudents", {students});
->>>>>>> naqeeb-changes
+    
 })
 
 //showing all admins
 app.get("/api/admin/showAllAdmins", auth, async(req, res) => {
     const admins = await Admin.find({});
-<<<<<<< HEAD
-    res.render("allAdmins", {admins});
-=======
+
     res.render("admin/allAdmins", {admins});
->>>>>>> naqeeb-changes
+
 })
 
 //student edit route
@@ -257,20 +232,16 @@ app.get("/api/admin/:id/edit", auth, async (req, res) => {
 })
 
 //student update route
-<<<<<<< HEAD
-// Student update route
-app.post("/api/admin/:id/edit", async (req, res) => {
-    const { id } = req.params;
-    const { adminName, hostelName } = req.body;
 
-=======
+
+
 app.put("/api/admin/:id/edit", async (req, res) => {
     const {id} = req.params;
     const {adminName, hostelName} = req.body;
->>>>>>> naqeeb-changes
+
     await Admin.findByIdAndUpdate(id, {
-        adminName,
-        hostelName,
+        adminName: adminName,
+        hostelName: hostelName,
     });
 
     req.flash("success", "Student updated successfully!");
@@ -303,8 +274,7 @@ app.post("/api/admin/dropcomment",async (req, res)=>{
 app.get("/api/comment", async (req, res)=>{
     const comments = await Comment.find({});
     res.render("comment", { comments });
- });
- 
+ }); 
 
 //chart route 
 app.get('/api/graph', async (req, res) => {
