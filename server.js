@@ -13,7 +13,13 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
 const bcrypt = require("bcrypt");
+<<<<<<< HEAD
 const { send } = require('process');
+=======
+const jwt = require("jsonwebtoken");
+const cookieParser = require('cookie-parser');
+const auth = require('./middlewares/auth');
+>>>>>>> naqeeb-changes
 
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, "public")))
@@ -21,7 +27,9 @@ app.set('view engine', 'ejs');
 app.engine('ejs', ejsMate);
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 const saltRounds = 10;
+const secret = "Jamia";
 
 connectDB();
 
@@ -38,9 +46,11 @@ app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   res.locals.currentRoute = req.path;
+  res.locals.req = req;
   next();
 });
 
+<<<<<<< HEAD
 app.get("/add", async(req, res) => {
 
     let adminName = "Shakir";
@@ -58,14 +68,17 @@ app.get("/add", async(req, res) => {
     await newAdmin.save();
 })
 
+=======
+>>>>>>> naqeeb-changes
 // Routes will go here
 app.get("/home", async(req, res)=>{
     res.render("home");
+    res.clearCookie('token');
 });
 
 //admin login
 app.get("/api/admin/login",(req, res)=>{
-    res.render("login.ejs");
+    res.render("admin/login.ejs");
 })
 
 
@@ -77,6 +90,8 @@ app.post("/api/admin/dashboard", async (req, res) => {
     const validAdmin = await bcrypt.compare(password, admin.password);
 
     if(validAdmin){
+        const token = jwt.sign({id: 1, username: admin.adminName }, secret, { expiresIn: '1h' });
+        res.cookie("token", token);
         req.flash("success", "Welcome! Login Successfully!")
         res.redirect("/api/admin/dashboard");
     }else{
@@ -88,7 +103,8 @@ app.post("/api/admin/dashboard", async (req, res) => {
 
 //feedback form
 app.get("/api/feedback", (req, res)=>{
-    res.render("feedform.ejs")
+    res.render("feedback/feedform.ejs");
+    res.clearCookie('token');
 });
 
 
@@ -112,37 +128,40 @@ app.post('/api/feedback', async (req, res) => {
         req.flash("success", "Your Feedback added!")
         res.redirect("/api/student/dashboard");
     }else{
+<<<<<<< HEAD
          req.flash("error", "Incorrect Password");
+=======
+         req.flash("error", "Worng Password!")
+>>>>>>> naqeeb-changes
          res.redirect("/api/feedback");
     }   
 });
 
 //showing all feedbacks for students
-app.get("/api/student/dashboard",async (req, res)=>{
-     
+app.get("/api/student/dashboard",async (req, res)=>{  
     let allFeedbacks = await Feedback.find().populate("owner");
-    res.render("allFeedbacks.ejs",{ allFeedbacks } );
+    res.render("feedback/allFeedbacks.ejs",{ allFeedbacks } );
+    res.clearCookie('token');
 });
 
 //showing all feedbacks for Admins
-app.get("/api/admin/allFeedbacks",async (req, res)=>{
-     
+app.get("/api/admin/allFeedbacks", auth, async (req, res)=>{ 
     let allFeedbacks = await Feedback.find().populate("owner");
-    res.render("allFeedbacks.ejs",{ allFeedbacks } );
+    res.render("feedback/allFeedbacks.ejs",{ allFeedbacks } );
 });
 
 //Admin dashboard
-app.get("/api/admin/dashboard", async (req, res)=>{
-     res.render("admin");
+app.get("/api/admin/dashboard", auth, async (req, res)=>{
+    res.render("admin/admin");
 });
 
 //new student form 
-app.get("/api/student/new",(req, res)=>{
-    res.render("newStudent")
+app.get("/api/admin/addStudent", auth, (req, res)=>{
+    res.render("student/newStudent");
 });
 
 //saving new student
-app.post("/api/student/new", async (req, res)=>{
+app.post("/api/admin/addStudent", async (req, res)=>{
     let { studentName, studentId, roomNumber, password } = req.body ; 
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -164,12 +183,12 @@ app.post("/api/student/new", async (req, res)=>{
 })
 
 //new admin form
-app.get("/api/admin/new", (req, res) => {
-    res.render("newAdmin");
+app.get("/api/admin/addAdmin", auth, (req, res) => {
+    res.render("admin/newAdmin");
 });
 
 //saving new admin in db
-app.post("/api/admin/new", async (req, res)=>{
+app.post("/api/admin/addAdmin", async (req, res)=>{
     let {adminName, hostelName, password } = req.body ; 
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -190,26 +209,34 @@ app.post("/api/admin/new", async (req, res)=>{
 });
 
 //showing all students
-app.get("/api/admin/showAllStudents", async(req, res) => {
+app.get("/api/admin/showAllStudents", auth, async(req, res) => {
     const students = await Student.find({});
+<<<<<<< HEAD
     res.render("allStudents", {students});
+=======
+    res.render("student/allStudents", {students});
+>>>>>>> naqeeb-changes
 })
 
 //showing all admins
-app.get("/api/admin/showAllAdmins", async(req, res) => {
+app.get("/api/admin/showAllAdmins", auth, async(req, res) => {
     const admins = await Admin.find({});
+<<<<<<< HEAD
     res.render("allAdmins", {admins});
+=======
+    res.render("admin/allAdmins", {admins});
+>>>>>>> naqeeb-changes
 })
 
 //student edit route
-app.get("/api/student/:id/edit", async (req, res) => {
+app.get("/api/student/:id/edit", auth, async (req, res) => {
     const {id} = req.params;
     const studentDetails = await Student.findById(id);
-    res.render("StudentEditPage", {studentDetails});
+    res.render("student/studentEditPage", {studentDetails});
 })
 
 //student update route
-app.post("/api/student/:id/edit", async (req, res) => {
+app.put("/api/student/:id/edit", async (req, res) => {
     const {id} = req.params;
     const {studentName, studentId, roomNumber} = req.body;
     await Student.findByIdAndUpdate(id, {
@@ -223,18 +250,24 @@ app.post("/api/student/:id/edit", async (req, res) => {
 })
 
 //admin edit route
-app.get("/api/admin/:id/edit", async (req, res) => {
+app.get("/api/admin/:id/edit", auth, async (req, res) => {
     const {id} = req.params;
     const adminDetails = await Admin.findById(id);
-    res.render("adminEditPage", {adminDetails});
+    res.render("admin/adminEditPage", {adminDetails});
 })
 
 //student update route
+<<<<<<< HEAD
 // Student update route
 app.post("/api/admin/:id/edit", async (req, res) => {
     const { id } = req.params;
     const { adminName, hostelName } = req.body;
 
+=======
+app.put("/api/admin/:id/edit", async (req, res) => {
+    const {id} = req.params;
+    const {adminName, hostelName} = req.body;
+>>>>>>> naqeeb-changes
     await Admin.findByIdAndUpdate(id, {
         adminName,
         hostelName,
@@ -307,5 +340,19 @@ app.get('/api/graph', async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+//route for deleting admin
+app.delete("/api/admins/:id", async(req, res) => {
+    const {id} = req.params;
+    await Admin.findByIdAndDelete(id);
+    res.redirect("/api/admin/showAllAdmins");
+})
+
+//route for deleting students
+app.delete("/api/student/:id", async(req, res) => {
+    const {id} = req.params;
+    await Student.findByIdAndDelete(id);
+    res.redirect("/api/admin/showAllStudents");
+})
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

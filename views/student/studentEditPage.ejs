@@ -6,7 +6,7 @@
       Edit Student's Details
     </h4>
 
-    <form action="/api/student/<%= studentDetails._id %>/edit" method="post">
+    <form action="/api/student/<%= studentDetails._id %>/edit?_method=PUT" method="post" class="needs-validation" novalidate>
       <div class="mb-3">
         <label class="form-label" style="font-weight: 500; color: #222;">Student Name</label>
         <input
@@ -16,6 +16,7 @@
           value="<%= studentDetails.studentName %>"
           required
         />
+        <div class="invalid-feedback">Please Enter Student Name</div>
       </div>
 
       <div class="mb-3">
@@ -40,6 +41,7 @@
           value="<%= studentDetails.roomNumber %>"
           required
         />
+        <div class="invalid-feedback">Please Room Number</div>
       </div>
 
       <button

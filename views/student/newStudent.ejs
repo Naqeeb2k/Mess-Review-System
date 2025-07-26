@@ -4,6 +4,7 @@
   <form action="/api/student/new" method="POST" class="w-100" style="max-width: 500px; border: 1.5px solid black; padding: 30px; border-radius: 16px; background: white;">
     <h2 class="text-center mb-4" style="font-family: 'Playfair Display', serif; font-weight: 600;">Add New Student</h2>
 
+<<<<<<< HEAD:views/newStudent.ejs
     <div class="mb-3">
       <label for="studentName" class="form-label">Student Name</label>
       <input
@@ -55,6 +56,56 @@
         style="border: 1px solid black;"
       />
     </div>
+=======
+    <form action="/api/admin/addStudent" method="post" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label class="form-label" style="font-weight: 500; color: #222;">Student Name</label>
+        <input
+          type="text"
+          name="studentName"
+          class="form-control border-dark rounded-2"
+          placeholder="e.g. Ahmed Khan"
+          required
+        />
+        <div class="invalid-feedback">Please enter the Student name</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" style="font-weight: 500; color: #222;">Student ID</label>
+        <input
+          type="text"
+          name="studentId"
+          class="form-control border-dark rounded-2"
+          placeholder="e.g. STU123"
+          required
+        />
+        <div class="invalid-feedback">Please enter the Student ID</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" style="font-weight: 500; color: #222;">Room Number</label>
+        <input
+          type="text"
+          name="roomNumber"
+          class="form-control border-dark rounded-2"
+          placeholder="e.g. 204-B"
+          required
+        />
+        <div class="invalid-feedback">Please enter the Room Number</div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label" style="font-weight: 500; color: #222;">Password</label>
+        <input
+          type="password"
+          name="password"
+          class="form-control border-dark rounded-2"
+          placeholder="Create password"
+          required
+        />
+        <div class="invalid-feedback">Please enter the Password</div>
+      </div>
+>>>>>>> naqeeb-changes:views/student/newStudent.ejs
 
     <button type="submit" class="btn w-100" style="background-color: black; color: white; border-radius: 30px; font-weight: 600;">Add Student</button>
   </form>

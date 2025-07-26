@@ -10,7 +10,12 @@
 
       <div class="card-actions">
         <a href="/api/student/<%= student._id %>/edit" class="btn edit-btn">✏️ Edit</a>
-        <form action="/api/student/<%= student._id %>/delete?_method=DELETE" method="POST" style="display:inline;">
+        <form 
+          action="/api/student/<%= student._id %>?_method=DELETE" 
+          method="POST" 
+          style="display:inline;"
+          onsubmit="return confirm('Are you sure you want to delete this admin?');">
+        >
           <button type="submit" class="btn delete-btn">🗑️ Delete</button>
         </form>
       </div>

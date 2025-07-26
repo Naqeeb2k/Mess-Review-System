@@ -12,7 +12,7 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/home">Home</a>
         </li>
-        <% if (currentRoute === '/api/student/dashboard' ) { %>
+        <% if (currentRoute === '/api/student/dashboard') { %>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/api/feedback">
               Give your review
@@ -29,15 +29,19 @@
 
           </li>
         <% } %>
+<<<<<<< HEAD
         <!-- <% if (currentRoute === '/api/admin/dashboard') { %>
+=======
+        <% if (req.user) { %>
+>>>>>>> naqeeb-changes
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/api/student/new">
+            <a class="nav-link active" aria-current="page" href="/api/admin/addStudent">
               Add New Student
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/api/admin/new">
+            <a class="nav-link active" aria-current="page" href="/api/admin/addAdmin">
               Add New Admin
             </a>
           </li>

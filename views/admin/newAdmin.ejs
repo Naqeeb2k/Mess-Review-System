@@ -1,0 +1,63 @@
+<%- layout('/layouts/boilerplate') %>
+
+<div class="container mt-5 mb-5 d-flex justify-content-center">
+  <form action="/api/admin/new" method="POST" class="w-100" style="max-width: 500px; border: 1.5px solid black; padding: 30px; border-radius: 16px; background: white;">
+    <h2 class="text-center mb-4" style="font-family: 'Playfair Display', serif; font-weight: 600;">Add New Admin</h2>
+
+<<<<<<< HEAD:views/newAdmin.ejs
+    <div class="mb-3">
+      <label for="adminName" class="form-label">Admin Name</label>
+      <input type="text" id="adminName" name="adminName" class="form-control" placeholder="e.g. John Smith" required style="border: 1px solid black;">
+    </div>
+
+    <div class="mb-3">
+      <label for="hostelName" class="form-label">Hostel Name</label>
+      <input type="text" id="hostelName" name="hostelName" class="form-control" placeholder="e.g. Hostel A" required style="border: 1px solid black;">
+    </div>
+
+    <div class="mb-4">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" id="password" name="password" class="form-control" placeholder="Create password" required style="border: 1px solid black;">
+    </div>
+=======
+    <form action="/api/admin/addAdmin" method="post" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label class="form-label" style="font-weight: 500; color: #222;">Admin Name</label>
+        <input
+          type="text"
+          name="adminName"
+          class="form-control border-dark rounded-2"
+          placeholder="e.g. John Smith"
+          required
+        />
+        <div class="invalid-feedback">Please Enter Admin Name</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" style="font-weight: 500; color: #222;">Hostel Name</label>
+        <input
+          type="text"
+          name="hostelName"
+          class="form-control border-dark rounded-2"
+          placeholder="e.g. Hostel A"
+          required
+        />
+        <div class="invalid-feedback">Please Enter Hostle Name</div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label" style="font-weight: 500; color: #222;">Password</label>
+        <input
+          type="password"
+          name="password"
+          class="form-control border-dark rounded-2"
+          placeholder="Create password"
+          required
+        />
+        <div class="invalid-feedback">Please Enter Password</div>
+      </div>
+>>>>>>> naqeeb-changes:views/admin/newAdmin.ejs
+
+    <button type="submit" class="btn w-100" style="background-color: black; color: white; border-radius: 30px; font-weight: 600;">Add Admin</button>
+  </form>
+</div>

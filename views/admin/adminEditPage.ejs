@@ -6,7 +6,7 @@
       Edit Admin Details
     </h4>
 
-    <form action="/api/admin/<%= adminDetails._id %>/edit" method="post" class="needs-validation" novalidate>
+    <form action="/api/admin/<%= adminDetails._id %>/edit?_method=PUT" method="post" class="needs-validation" novalidate>
       <div class="mb-3">
         <label class="form-label" style="font-weight: 500; color: #222;">Admin Name</label>
         <input
@@ -17,6 +17,7 @@
           value="<%= adminDetails.adminName %>"
           required
         />
+        <div class="invalid-feedback">Please Enter Admin Name</div>
       </div>
 
       <div class="mb-3">
@@ -29,6 +30,7 @@
           value="<%= adminDetails.hostelName %>"
           required
         />
+        <div class="invalid-feedback">Please Enter Hostel Name</div>
       </div>
 
       <button
