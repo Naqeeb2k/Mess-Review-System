@@ -1,3 +1,5 @@
+<%- layout('/layouts/boilerplate') %>
+
 <style>
   .hover-card {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -7,50 +9,106 @@
     transform: scale(1.03);
     box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
   }
+
+  .hero-text {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-shadow: 0 0 10px rgba(0,0,0,0.7);
+    text-align: center;
+  }
 </style>
 
-
-<%- layout('/layouts/boilerplate') %>
-
-<div style="margin-top: 20px; margin-bottom: 20px;">
-    <!-- <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcwxXKqmVkve769qISNiqS-Q4TduvZsueZBw&s" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPYrQs2NO7949tSO8ogjevNkXQVSXbNHcJlz6gLkJ3e5DP40Ku3mEC1HjkbxRl7NlcSOE&usqp=CAU" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="https://blog.jmientrance.com/wp-content/uploads/2023/10/IMG_4821-855x628.jpeg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="...">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div> -->
-
-    <div class="d-flex justify-content-center align-items-center mt-5 gap-4 flex-wrap">
-        <!-- Admin Option -->
-        <a href="/api/admin/login" class="text-decoration-none">
-            <div class="card text-center shadow-sm p-4 hover-card" style="width: 200px;">
-            <i class="fa-solid fa-user-tie fa-2x mb-2"></i>
-            <h5 class="mb-0">Admin</h5>
-            </div>
-        </a>
-
-        <!-- Student Option -->
-        <a href="/api/student/dashboard" class="text-decoration-none">
-            <div class="card text-center shadow-sm p-4 hover-card" style="width: 200px;">
-            <i class="fa-solid fa-user fa-2x mb-2"></i>
-            <h5 class="mb-0">Student</h5>
-            </div>
-        </a>
+<div style="margin-bottom: 20px; position: relative;">
+  <!-- Hero Carousel -->
+  <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://jamiapapers.com/wp-content/uploads/2020/03/University-Polytechnic-Jamia-Millia-Islamia.jpg" class="d-block w-100" style="height: 500px; object-fit: cover;" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="https://images.shiksha.com/mediadata/images/articles/1653625228phpG3e3OJ.jpeg" class="d-block w-100" style="height: 500px; object-fit: cover;" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="https://imagesvs.oneindia.com/img/2019/12/jamia-millia-1577674915.jpg" class="d-block w-100" style="height: 500px; object-fit: cover;" alt="...">
+      </div>
     </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
 
+    <div class="hero-text">
+      <h1 class="display-5 fw-bold">Welcome to Mess Review System</h1>
+      <p class="lead">Online feedback and management for JMI Hostel meals.</p>
+    </div>
+  </div>
+
+  <!-- Role Selection Cards -->
+  <div class="d-flex justify-content-center align-items-center mt-5 gap-4 flex-wrap">
+    <!-- Admin Option -->
+    <a href="/api/admin/login" class="text-decoration-none">
+      <div class="card text-center shadow-sm p-4 hover-card" style="width: 200px;">
+        <i class="fa-solid fa-user-tie fa-2x mb-2"></i>
+        <h5 class="mb-0">Admin</h5>
+      </div>
+    </a>
+
+    <!-- Student Option -->
+    <a href="/api/student/dashboard" class="text-decoration-none">
+      <div class="card text-center shadow-sm p-4 hover-card" style="width: 200px;">
+        <i class="fa-solid fa-user fa-2x mb-2"></i>
+        <h5 class="mb-0">Student</h5>
+      </div>
+    </a>
+  </div>
 </div>
+
+<!-- About Section -->
+<section class="container my-5">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h2>About the Mess System</h2>
+      <p>This platform is designed for Jamia Millia Islamia hostelers to submit reviews and feedback about daily meals online. Admins can monitor feedback, respond to reviews, and manage users effectively in a secure environment.</p>
+    </div>
+    <div class="col-md-6">
+      <img src="https://images.shiksha.com/mediadata/images/articles/1741260235phpWlLN8f.jpeg" class="img-fluid rounded" alt="Mess About">
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="bg-light py-5">
+  <div class="container text-center">
+    <h2 class="mb-4">Key Features</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="p-3">
+          <i class="fa-solid fa-star-half-stroke fa-2x text-dark mb-2"></i>
+          <h5>Meal Reviews</h5>
+          <p>Students can rate and review each meal online, every day.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3">
+          <i class="fa-solid fa-chart-line fa-2x text-dark mb-2"></i>
+          <h5>Analytics</h5>
+          <p>Graphical reports weekly and monthly help identify trends in student satisfaction.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3">
+          <i class="fa-solid fa-lock fa-2x text-dark mb-2"></i>
+          <h5>Secure Access</h5>
+          <p>Only verified hostelers and admins can access the platform using login credentials.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
