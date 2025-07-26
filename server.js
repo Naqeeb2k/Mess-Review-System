@@ -97,6 +97,7 @@ app.post('/api/feedback', async (req, res) => {
    const {mealType, rating, comment, studentId, password} = req.body; 
 
     const student = await Student.findOne({ studentId }); 
+    if(!student) return req.flash("error", "Worng Credentials!"), res.redirect("/api/feedback");
     const validStudent = await bcrypt.compare(password, student.password);
 
     if (validStudent) {
@@ -111,7 +112,7 @@ app.post('/api/feedback', async (req, res) => {
         req.flash("success", "Your Feedback added!")
         res.redirect("/api/student/dashboard");
     }else{
-         req.flash("error", "Are You Hosteller? Then Fill Correct Info.")
+         req.flash("error", "Incorrect Password");
          res.redirect("/api/feedback");
     }   
 });
@@ -265,10 +266,46 @@ app.post("/api/admin/dropcomment",async (req, res)=>{
     }   
     
 }) ;
-//route for showing the commnets
+// //route for showing the commnets
 app.get("/api/comment", async (req, res)=>{
     const comments = await Comment.find({});
-    res.render("comment", { comments });
+    res.render("comment", { comments });
+ });
+ 
+
+//chart route 
+app.get('/api/graph', async (req, res) => {
+  try {
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+    const weeklyData = await Feedback.aggregate([
+      {
+        $match: {
+          date: { $gte: startOfMonth, $lte: endOfMonth }
+        }
+      },
+      {
+        $group: {
+          _id: { $week: "$date" },
+          averageRating: { $avg: "$rating" }
+        }
+      },
+      {
+        $sort: { "_id": 1 }
+      }
+    ]);
+
+    const labels = weeklyData.map(entry => `Week ${entry._id}`);
+    const data = weeklyData.map(entry => Number(entry.averageRating.toFixed(2)));
+
+    res.render('graph', { labels, data });
+
+  } catch (err) {
+    console.error('Error generating graph data:', err);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
