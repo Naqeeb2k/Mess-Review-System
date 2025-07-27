@@ -1,0 +1,75 @@
+<%- layout('layouts/boilerplate') %>
+
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">📊 Monthly Feedback Analyzer</h2>
+
+  <!-- Bar Chart -->
+  <div class="mb-5">
+    <canvas id="monthlyChart"></canvas>
+  </div>
+
+  <!-- Doughnut Chart -->
+  <div class="mb-5">
+    <h5 class="text-center">🎯 Monthly Average Review</h5>
+    <canvas id="averagePieChart" width="300" height="300"></canvas>
+  </div>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const labels = <%- JSON.stringify(labels) %>;     // e.g., ["Week 1", "Week 2", "Week 3", "Week 4"]
+  const data = <%- JSON.stringify(data) %>;         // e.g., [3.5, 4.2, 3.8, 4.0]
+
+  // Calculate Monthly Average
+  const total = data.reduce((acc, val) => acc + val, 0);
+  const average = (data.length > 0) ? (total / data.length).toFixed(2) : 0;
+  const remaining = (5 - average).toFixed(2);
+
+  // Bar Chart for Weekly Feedback
+  const ctxBar = document.getElementById('monthlyChart').getContext('2d');
+  new Chart(ctxBar, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Average Rating',
+        data: data,
+        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 2,
+        borderRadius: 5,
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 5
+        }
+      }
+    }
+  });
+
+  // Doughnut Chart for Monthly Average
+  const ctxDoughnut = document.getElementById('averagePieChart').getContext('2d');
+  new Chart(ctxDoughnut, {
+    type: 'doughnut',
+    data: {
+      labels: ['Average Rating', 'Remaining to 5'],
+      datasets: [{
+        data: [average, remaining],
+        backgroundColor: ['#4CAF50', '#e0e0e0'],
+        borderColor: ['#4CAF50', '#e0e0e0'],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }
+  });
+</script>

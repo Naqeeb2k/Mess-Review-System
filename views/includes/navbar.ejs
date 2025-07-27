@@ -11,23 +11,36 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/home">Home</a>
         </li>
-        <% if (currentRoute === '/api/student/dashboard' ) { %>
+        <% if (currentRoute === '/api/student/dashboard') { %>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/api/feedback">
               Give your review
             </a>
           </li>
-         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
           <li class="nav-item d-flex justify-content-end">
-                      <div class="position-absolute top-0 end-0 p-3">
+            <div class="position-absolute top-0 end-0 p-3">
               <a class="nav-link position-relative" href="/api/comment" title="Admins Comments">
                 <i class="bi bi-bell-fill fs-5"></i>
               </a>
             </div>
-
           </li>
         <% } %>
+
+        <% if (req.user) { %>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/api/graph">
+              Monthly Graph
+            </a>
+          </li>
+
+          <li class="nav-item d-flex justify-content-end">
+            <div class="position-absolute top-0 end-0 p-3">
+              <a class="nav-link position-relative" href="/api/admin/logOut" title="Admins Comments">
+                <b>Log Out</b>
+              </a>
+            </div>
+          </li>
+        <% } %> 
       </ul>
     </div>
   </div>

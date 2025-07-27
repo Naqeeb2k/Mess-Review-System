@@ -48,9 +48,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
-
 // Routes will go here
 app.get("/home", async(req, res)=>{
     res.render("home");
@@ -61,7 +58,6 @@ app.get("/home", async(req, res)=>{
 app.get("/api/admin/login",(req, res)=>{
     res.render("admin/login.ejs");
 })
-
 
 //admin login
 app.post("/api/admin/dashboard", async (req, res) => {
@@ -87,7 +83,6 @@ app.get("/api/feedback", (req, res)=>{
     res.render("feedback/feedform.ejs");
     res.clearCookie('token');
 });
-
 
 //feedback saving in db
 app.post('/api/feedback', async (req, res) => {
@@ -190,9 +185,7 @@ app.post("/api/admin/addAdmin", async (req, res)=>{
 //showing all students
 app.get("/api/admin/showAllStudents", auth, async(req, res) => {
     const students = await Student.find({});
-
-    res.render("student/allStudents", {students});
-    
+    res.render("student/allStudents", {students});  
 })
 
 //showing all admins
@@ -232,9 +225,6 @@ app.get("/api/admin/:id/edit", auth, async (req, res) => {
 })
 
 //student update route
-
-
-
 app.put("/api/admin/:id/edit", async (req, res) => {
     const {id} = req.params;
     const {adminName, hostelName} = req.body;
@@ -247,10 +237,26 @@ app.put("/api/admin/:id/edit", async (req, res) => {
     req.flash("success", "Student updated successfully!");
     res.redirect("/api/admin/showAllAdmins");
 });
+
+//route for deleting admin
+app.delete("/api/admins/:id", async(req, res) => {
+    const {id} = req.params;
+    await Admin.findByIdAndDelete(id);
+    res.redirect("/api/admin/showAllAdmins");
+})
+
+//route for deleting students
+app.delete("/api/student/:id", async(req, res) => {
+    const {id} = req.params;
+    await Student.findByIdAndDelete(id);
+    res.redirect("/api/admin/showAllStudents");
+})
+
 //for give comment
 app.get("/api/admin/dropcomment",(req, res)=>{
     res.render("dropcomment");
 });
+
 //for take comment
 app.post("/api/admin/dropcomment",async (req, res)=>{
     const {id} = req.params;
@@ -269,12 +275,13 @@ app.post("/api/admin/dropcomment",async (req, res)=>{
          res.redirect("/api/admin/dropcomment");
     }   
     
-}) ;
+});
+
 // //route for showing the commnets
 app.get("/api/comment", async (req, res)=>{
     const comments = await Comment.find({});
     res.render("comment", { comments });
- }); 
+});
 
 //chart route 
 app.get('/api/graph', async (req, res) => {
@@ -311,18 +318,10 @@ app.get('/api/graph', async (req, res) => {
   }
 });
 
-//route for deleting admin
-app.delete("/api/admins/:id", async(req, res) => {
-    const {id} = req.params;
-    await Admin.findByIdAndDelete(id);
-    res.redirect("/api/admin/showAllAdmins");
-})
-
-//route for deleting students
-app.delete("/api/student/:id", async(req, res) => {
-    const {id} = req.params;
-    await Student.findByIdAndDelete(id);
-    res.redirect("/api/admin/showAllStudents");
+app.get("/api/admin/logOut", (req, res) => {
+    res.clearCookie('token');
+    req.flash("success", "Logged Out SuccessFully!");
+    res.redirect("/home");
 })
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
