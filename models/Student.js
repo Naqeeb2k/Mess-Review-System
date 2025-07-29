@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Feedback = require('./Feedback');
 
 const studentSchema = new mongoose.Schema({
   studentName: {
@@ -12,7 +13,7 @@ const studentSchema = new mongoose.Schema({
   roomNumber: {
     type: Number,
     min: 1,
-    max: 3,
+    max: 599,
     required: true
   },
   password: {
@@ -20,5 +21,12 @@ const studentSchema = new mongoose.Schema({
     required: true,
   }
 });
+
+studentSchema.post("findOneAndDelete", async(student) => {
+  if(student){
+    await Feedback.deleteMany({owner : student._id});
+    console.log("All Feedbacks of this Student are also deleted!");
+  }
+})
 
 module.exports = mongoose.model('Student', studentSchema);
