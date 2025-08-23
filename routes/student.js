@@ -3,8 +3,8 @@ const router = express.Router({mergeParams: true});
 const Feedback = require("../models/Feedback");
 const Student = require("../models/Student");
 const Comment = require("../models/comment");
-const auth = require('../middlewares/auth');
 const wrapAsync = require("../utilis/WrapAsync");
+const { auth } = require("../middlewares");
 
 
 //showing all feedbacks for students

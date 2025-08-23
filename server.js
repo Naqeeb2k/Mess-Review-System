@@ -29,7 +29,7 @@ connectDB();
 
 // Session middleware (MUST come before flash and any route that uses req.flash)
 app.use(session({
-  secret: 'your_secret_key', // change this to something secure in production
+  secret: 'your_secret_key',
   resave: false,
   saveUninitialized: false
 }));
@@ -53,7 +53,7 @@ app.use("/home", home);
 //this is for invalid route
 app.use((req, res, next) => {
     next(new ExpressError(404, "Page not found"));
-})
+});
 
 //this is for all backend errors
 app.use((err, req, res, next) => {

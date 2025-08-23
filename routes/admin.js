@@ -2,36 +2,36 @@ const express = require("express");
 const router = express.Router({mergeParams: true});
 const Feedback = require("../models/Feedback");
 const Student = require("../models/Student");
-const auth = require('../middlewares/auth');
 const Admin = require("../models/Admin");
 const bcrypt = require("bcrypt");
 const Comment = require("../models/comment");
 const jwt = require("jsonwebtoken");
 const wrapAsync = require("../utilis/WrapAsync");
+const { validateStudent, validateAdmin, validateComment, auth } = require("../middlewares");
 
 const saltRounds = 10;
 const secret = "Jamia";
 
 //admin login
 router.get("/login",(req, res)=>{
-    res.render("admin/login.ejs");
+    res.render("admin/login.ejs", {adminName: ""});
 })
 
 //admin login
-router.post("/dashboard",wrapAsync(async (req, res) => {
+router.post("/dashboard", wrapAsync(async (req, res) => {
     const { adminName, password } = req.body;
     const admin = await Admin.findOne({ adminName });
-    if(!admin) return req.flash("error", "Worng Credentials!"), res.redirect("/api/admin/login");
+    if(!admin) return req.flash("error", "Admin Doesn't exist!"), res.redirect("/api/admin/login");
     const validAdmin = await bcrypt.compare(password, admin.password);
 
     if(validAdmin){
         const token = jwt.sign({id: 1, username: admin.adminName }, secret, { expiresIn: '1h' });
         res.cookie("token", token);
-        req.flash("success", "Welcome! Login Successfully!")
+        req.flash("success", "Welcome! Login Successfully!");
         res.redirect("/api/admin/dashboard");
     }else{
-         req.flash("error", "Worng Credentials!")
-         res.redirect("/api/admin/login");
+         req.flash("error", "Worng Password!");
+         res.render("admin/login.ejs", {adminName, error: req.flash("error")});
     }   
 }));
 
@@ -52,7 +52,7 @@ router.get("/addStudent", auth, (req, res)=>{
 });
 
 //saving new student
-router.post("/addStudent", wrapAsync(async (req, res)=>{
+router.post("/addStudent", validateStudent, wrapAsync(async (req, res)=>{
     let { studentName, studentId, roomNumber, password } = req.body ; 
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -79,8 +79,8 @@ router.get("/addAdmin", auth, (req, res) => {
 });
 
 //saving new admin in db
-router.post("/addAdmin",wrapAsync(async (req, res)=>{
-    let {adminName, hostelName, password } = req.body ; 
+router.post("/addAdmin", validateAdmin, wrapAsync(async (req, res)=>{
+    let {adminName, hostelName, password } = req.body; 
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     
@@ -90,7 +90,7 @@ router.post("/addAdmin",wrapAsync(async (req, res)=>{
         password: hashedPassword,
     });
     console.log(newAdmin)
-   if( await newAdmin.save()){
+    if(await newAdmin.save()){
         req.flash("success", `You Add ${adminName} as a new admin!`)
         res.redirect("/api/admin/dashboard");
     }else{
@@ -120,7 +120,7 @@ router.get("/:id/edit", auth, wrapAsync(async (req, res) => {
     res.render("admin/adminEditPage", {adminDetails});
 }));
 
-//student update route
+//Admin update route
 router.put("/:id/edit", wrapAsync(async (req, res) => {
     const {id} = req.params;
     const {adminName, hostelName} = req.body;
@@ -147,7 +147,7 @@ router.get("/dropcomment",auth, (req, res)=>{
 });
 
 //for take comment
-router.post("/dropcomment", wrapAsync(async (req, res)=>{
+router.post("/dropcomment", validateComment, wrapAsync(async (req, res)=>{
     const {id} = req.params;
     const {post, hostelName, comment} = req.body;
     let newComment = new Comment({

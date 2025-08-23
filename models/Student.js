@@ -27,6 +27,6 @@ studentSchema.post("findOneAndDelete", async(student) => {
     await Feedback.deleteMany({owner : student._id});
     console.log("All Feedbacks of this Student are also deleted!");
   }
-})
+});
 
 module.exports = mongoose.model('Student', studentSchema);

@@ -1,32 +1,52 @@
 <%- layout('layouts/boilerplate') %>
 
 <div class="container mt-5">
-  <h2 class="mb-4 text-center">📊 Monthly Feedback Analyzer</h2>
-
-  <!-- Bar Chart -->
-  <div class="mb-5">
-    <canvas id="monthlyChart"></canvas>
+  <div class="text-center mb-4">
+    <h2 class="fw-bold text-dark">📊 Monthly Feedback Analyzer</h2>
+    <p class="text-muted">Visual insights into weekly and monthly reviews</p>
   </div>
 
-  <!-- Doughnut Chart -->
-  <div class="mb-5">
-    <h5 class="text-center">🎯 Monthly Average Review</h5>
-    <canvas id="averagePieChart" width="300" height="300"></canvas>
+  <!-- Bar Chart Card -->
+  <div class="card shadow-sm border-0 rounded-4 mb-4 bg-white">
+    <div class="card-body">
+      <h5 class="text-center text-dark mb-3">📅 Weekly Ratings</h5>
+      <div class="d-flex justify-content-center">
+        <div class="w-100" style="max-width: 600px;">
+          <canvas id="monthlyChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Doughnut Chart Card -->
+  <div class="card shadow-sm border-0 rounded-4 bg-white">
+    <div class="card-body">
+      <h5 class="text-center text-dark mb-3">🎯 Monthly Average Review</h5>
+      <div class="d-flex justify-content-center">
+        <div style="max-width: 300px; width: 100%;">
+          <canvas id="averagePieChart"></canvas>
+        </div>
+      </div>
+      <p class="text-center mt-3 fw-bold text-dark">
+        Average Score: <span id="avgScore"></span>/5 ⭐
+      </p>
+    </div>
   </div>
 </div>
 
 <!-- Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  const labels = <%- JSON.stringify(labels) %>;     // e.g., ["Week 1", "Week 2", "Week 3", "Week 4"]
-  const data = <%- JSON.stringify(data) %>;         // e.g., [3.5, 4.2, 3.8, 4.0]
+  const labels = <%- JSON.stringify(labels) %>;     // ["Week 1", "Week 2", "Week 3", "Week 4"]
+  const data = <%- JSON.stringify(data) %>;         // [3.5, 4.2, 3.8, 4.0]
 
   // Calculate Monthly Average
   const total = data.reduce((acc, val) => acc + val, 0);
   const average = (data.length > 0) ? (total / data.length).toFixed(2) : 0;
   const remaining = (5 - average).toFixed(2);
+  document.getElementById("avgScore").innerText = average;
 
-  // Bar Chart for Weekly Feedback
+  // Bar Chart
   const ctxBar = document.getElementById('monthlyChart').getContext('2d');
   new Chart(ctxBar, {
     type: 'bar',
@@ -35,23 +55,34 @@
       datasets: [{
         label: 'Average Rating',
         data: data,
-        backgroundColor: 'rgba(54, 162, 235, 0.7)',
-        borderColor: 'rgba(54, 162, 235, 1)',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        borderColor: 'rgba(0,0,0,1)',
         borderWidth: 2,
-        borderRadius: 5,
+        borderRadius: 6,
       }]
     },
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false }
+      },
       scales: {
+        x: {
+          ticks: { color: "#000" },
+          grid: { color: "#ddd" }
+        },
         y: {
           beginAtZero: true,
-          max: 5
+          max: 5,
+          ticks: { stepSize: 1, color: "#000" },
+          grid: { color: "#ddd" }
         }
       }
     }
   });
 
-  // Doughnut Chart for Monthly Average
+  // Doughnut Chart
   const ctxDoughnut = document.getElementById('averagePieChart').getContext('2d');
   new Chart(ctxDoughnut, {
     type: 'doughnut',
@@ -59,15 +90,19 @@
       labels: ['Average Rating', 'Remaining to 5'],
       datasets: [{
         data: [average, remaining],
-        backgroundColor: ['#4CAF50', '#e0e0e0'],
-        borderColor: ['#4CAF50', '#e0e0e0'],
-        borderWidth: 1
+        backgroundColor: ['#000', '#f5f5f5'],
+        borderWidth: 1,
+        borderColor: "#ccc"
       }]
     },
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '70%',
       plugins: {
         legend: {
-          position: 'bottom'
+          position: 'bottom',
+          labels: { color: "#000" }
         }
       }
     }

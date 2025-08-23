@@ -2,7 +2,7 @@
 
 <div class="container d-flex justify-content-center align-items-center py-5">
   <div class="col-12 col-sm-10 col-md-8 col-lg-6 p-4 border border-dark rounded-4 shadow-sm bg-white">
-    <h4 class="text-center mb-4" style="font-family: 'Playfair Display', serif; font-weight: 600; color: #111;">
+    <h4 class="text-center mb-4" color: #111;">
       Add Your Review
     </h4>
     <form method="POST" action="/api/feedback" class="needs-validation" novalidate>
@@ -11,9 +11,9 @@
         <label class="form-label fw-semibold">Meal Type</label>
         <select name="mealType" class="form-select border-dark rounded-2" required>
           <option value="">-- Select Meal --</option>
-          <option value="breakfast">Breakfast</option>
-          <option value="lunch">Lunch</option>
-          <option value="dinner">Dinner</option>
+          <option value="breakfast" <%= oldInput && oldInput.mealType === "breakfast" ? "selected" : "" %>>Breakfast</option>
+          <option value="lunch" <%= oldInput && oldInput.mealType === "lunch" ? "selected" : "" %>>Lunch</option>
+          <option value="dinner" <%= oldInput && oldInput.mealType === "dinner" ? "selected" : "" %>>Dinner</option>
         </select>
         <div class="invalid-feedback">Please select a meal type.</div>
       </div>
@@ -21,14 +21,14 @@
       <!-- Rating -->
       <div class="mb-3">
         <label class="form-label fw-semibold">Rating (1–5)</label>
-        <input name="rating" type="number" min="1" max="5" class="form-control border-dark rounded-2" required />
+        <input name="rating" type="number" value="<%= oldInput ? oldInput.rating : "" %>" min="1" max="5" class="form-control border-dark rounded-2" required />
         <div class="invalid-feedback">Enter a rating between 1 and 5.</div>
       </div>
 
       <!-- Comment -->
       <div class="mb-3">
         <label class="form-label fw-semibold">Comment</label>
-        <textarea name="comment" rows="3" class="form-control border-dark rounded-2" required></textarea>
+        <textarea name="comment" rows="3" class="form-control border-dark rounded-2" required><%= oldInput ? oldInput.comment : "" %></textarea>
         <div class="invalid-feedback">Please write a comment.</div>
       </div>
 
@@ -36,7 +36,7 @@
       <div class="row">
         <div class="col-md-4 mb-3">
           <label class="form-label fw-semibold">Student ID</label>
-          <input name="studentId" type="number" class="form-control border-dark rounded-2" required />
+          <input name="studentId" type="number" value="<%= oldInput ? oldInput.studentId : "" %>" class="form-control border-dark rounded-2" required />
           <div class="invalid-feedback">Student ID is required.</div>
         </div>
         <div class="col-md-8 mb-3">
